@@ -1,5 +1,5 @@
 {
-    "name": "lshamanl/symfony-api-adapter",
+    "name": "lshamanl/symfony-ui-bundle",
     "description": "Symfony API-Adapter, Filters",
     "type": "symfony-bundle",
     "authors": [
