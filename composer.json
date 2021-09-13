@@ -1,6 +1,6 @@
 {
     "name": "lshamanl/symfony-ui-bundle",
-    "description": "Symfony API-Adapter, Filters",
+    "description": "Symfony API-Adapter, UI-Bundle, Filters",
     "type": "symfony-bundle",
     "authors": [
         {
@@ -26,9 +26,6 @@
         "symfony/validator": "^5.2",
         "symfony/translation": "^5.2",
         "zircote/swagger-php": "^3.2"
-    },
-    "config": {
-        "gitlab-domains": ["gitlab.admin.geekbrains.ru"]
     },
     "require-dev": {
         "phpstan/phpstan": "^0.12.81",
