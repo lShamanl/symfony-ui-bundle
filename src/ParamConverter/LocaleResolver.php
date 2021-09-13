@@ -12,7 +12,7 @@ use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
 
 class LocaleResolver implements ArgumentValueResolverInterface
 {
-    const LOCALE_QUERY_PARAM = 'lang';
+    public const LOCALE_QUERY_PARAM = 'lang';
 
     public function supports(Request $request, ArgumentMetadata $argument): bool
     {

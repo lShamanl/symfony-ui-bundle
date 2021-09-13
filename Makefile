@@ -1,12 +1,13 @@
 lint:
 	composer lint
-	composer phpstan
 	composer phpcs-check
-	composer psalm
-	composer phpstan
 
 lint-autofix:
 	composer phpcs-fix
+
+analyze:
+	composer psalm
+	composer phpstan
 
 test:
 	composer test

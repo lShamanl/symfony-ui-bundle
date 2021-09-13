@@ -124,6 +124,7 @@ class Fetcher
     {
         $this->guardContext();
         $aggregateAlias = self::AGGREGATE_ALIAS;
+        $idPropertyName = $this->entityClassMetadata->identifier[0];
 
         $idsPrepared = array_map(function (string $id) {
             return "'$id'";
@@ -134,8 +135,7 @@ class Fetcher
 
         $qb = $this->entityManager->getRepository($this->context->entityClass)
             ->createQueryBuilder($aggregateAlias)
-            ->where($aggregateAlias . ".{$this->entityClassMetadata->identifier[0]} IN (" . implode(', ', $idsPrepared) . ')');
-
+            ->where("$aggregateAlias.{$idPropertyName} IN (" . implode(',', $idsPrepared) . ')');
 
         if ($eager) {
             $uniqueAssocRelations = array_unique(
