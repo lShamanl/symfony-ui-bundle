@@ -36,14 +36,15 @@ class LocaleResolver implements ArgumentValueResolverInterface
             $languages[] = $preferredLanguage;
         }
 
-        if ($request->headers->has('Accept-Language')) {
-            foreach (explode(',', $request->headers->get('Accept-Language')) as $langItem) {
+        if ($acceptLanguage = $request->headers->get('Accept-Language')) {
+            foreach (explode(',', $acceptLanguage) as $langItem) {
                 $result = stristr($langItem, ';', true);
                 $languages[] = ($result === false) ? $langItem : $result;
             }
         }
         $languages[] = $request->getDefaultLocale();
 
+        /** @var array<int, string> $languages */
         foreach ($languages as $i => $language) {
             $languages[$i] = str_replace('_', '-', $language);
         }
