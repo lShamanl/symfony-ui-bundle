@@ -9,19 +9,18 @@ use Bundle\UIBundle\Core\Contract\ApiFormatter;
 use Bundle\UIBundle\Core\CQRS\Query\AbstractProcessor;
 use Bundle\UIBundle\Core\Dto\Filters;
 use Bundle\UIBundle\Core\Dto\Locale;
-use Bundle\UIBundle\Core\Service\Filter\Fetcher;
+use Bundle\UIBundle\Core\Service\Filter\FetcherFactory;
 use Bundle\UIBundle\Core\Service\Filter\Filter;
 use Closure;
 use Doctrine\DBAL\Exception;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Query\Parameter;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class Processor extends AbstractProcessor
 {
-    private Fetcher $fetcher;
+    private FetcherFactory $fetcherFactory;
 
     public function __construct(
         EventDispatcherInterface $dispatcher,
@@ -29,10 +28,10 @@ class Processor extends AbstractProcessor
         EntityManagerInterface $entityManager,
         TranslatorInterface $translator,
         Locale $defaultLocale,
-        Fetcher $fetcher
+        FetcherFactory $fetcherFactory
     ) {
         parent::__construct($dispatcher, $serializer, $entityManager, $translator, $defaultLocale);
-        $this->fetcher = $fetcher;
+        $this->fetcherFactory = $fetcherFactory;
     }
 
     public function deleteFilterInBlackList(Filters $filters, array $blackList): Filters
@@ -66,19 +65,19 @@ class Processor extends AbstractProcessor
             $actionContext->setLocale($this->defaultLocale);
         }
 
-        $this->fetcher->setEntityClass($actionContext->getTargetEntityClass());
+        $fetcher = $this->fetcherFactory->forEntity($actionContext->getTargetEntityClass());
         $filters = $this->extractFilters($actionContext);
         $sorts = $actionContext->getSorts();
         $pagination = $actionContext->getPagination();
 
-        $this->fetcher->addFilters($filters);
-        $count = $this->fetcher->count();
+        $fetcher->addFilters($filters);
+        $count = $fetcher->count();
 
-        $this->fetcher->addSorts($sorts);
-        $this->fetcher->paginate($pagination);
+        $fetcher->addSorts($sorts);
+        $fetcher->paginate($pagination);
 
-        $searchResult = $this->fetcher->getByIds(
-            $this->searchEntityIds(),
+        $searchResult = $fetcher->getByIds(
+            $fetcher->searchEntityIds(),
             $actionContext->getEagerMode()
         );
 
@@ -129,32 +128,8 @@ class Processor extends AbstractProcessor
     }
 
     /**
-     * @return array<string>
-     * @throws \Doctrine\DBAL\Driver\Exception
-     * @throws Exception
-     */
-    private function searchEntityIds(): array
-    {
-        $query = $this->fetcher->getSearchQuery();
-        $idColumnName = current($this->fetcher->getEntityClassMetadata()->identifier);
-        return array_map(function (array $result) use ($idColumnName) {
-            return $result["{$idColumnName}_0"];
-        }, $this->entityManager->getConnection()
-            ->executeQuery(
-                $query->getSQL(),
-                array_map(
-                    function (Parameter $parameter) {
-                        return $parameter->getValue();
-                    },
-                    $query->getParameters()->toArray()
-                )
-            )
-            ->fetchAllAssociative());
-    }
-
-    /**
      * @param Closure|null $callback
-     * @param array $entities
+     * @param array<int, object> $entities
      */
     private function applyEntityCallback(?Closure $callback, array $entities): void
     {

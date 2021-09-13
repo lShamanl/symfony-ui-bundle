@@ -4,31 +4,50 @@ declare(strict_types=1);
 
 namespace Bundle\UIBundle\Core\Service\Filter;
 
-use Bundle\UIBundle\Core\Components\Exception\SystemException;
 use Bundle\UIBundle\Core\Dto\Filters;
 use Bundle\UIBundle\Core\Dto\Sorts;
+use Doctrine\DBAL\Exception;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Query;
+use Doctrine\ORM\Query\Parameter;
 
 class Fetcher
 {
     private const AGGREGATE_ALIAS = 'entity';
 
     private EntityManagerInterface $entityManager;
-    private ?FetcherContext $context;
-    private ?string $entityClass;
-    private ?ClassMetadata $entityClassMetadata;
+    private FetcherContext $context;
+    private ClassMetadata $entityClassMetadata;
 
-    public function __construct(EntityManagerInterface $entityManager)
-    {
+    /**
+     * FetcherInstance constructor.
+     * @param EntityManagerInterface $entityManager
+     * @param class-string $entityClass
+     */
+    public function __construct(
+        EntityManagerInterface $entityManager,
+        string $entityClass
+    ) {
         $this->entityManager = $entityManager;
+
+        $entityClassMetadata = $this->entityManager->getClassMetadata($entityClass);
+        $entityRepository = $this->entityManager->getRepository($entityClass);
+        $queryBuilder = $entityRepository->createQueryBuilder(self::AGGREGATE_ALIAS);
+        $filterSqlBuilder = new FilterSqlBuilder($queryBuilder);
+        $this->entityClassMetadata = $entityClassMetadata;
+
+        $this->context = new FetcherContext(
+            $this->entityManager,
+            $queryBuilder,
+            $entityClass,
+            $entityClassMetadata,
+            $filterSqlBuilder
+        );
     }
 
     public function addSorts(Sorts $sorts): void
     {
-        $this->guardContext();
-
         $this->context->filterSqlBuilder->addSorts(
             $this->context->filterAllowSorts($sorts)
         );
@@ -36,7 +55,6 @@ class Fetcher
 
     public function addFilters(Filters $filters): void
     {
-        $this->guardContext();
         $aggregateAlias = self::AGGREGATE_ALIAS;
 
         AutowareFilters::autoware(
@@ -68,51 +86,22 @@ class Fetcher
 
     public function paginate(Pagination $pagination): void
     {
-        $this->guardContext();
         $this->context->filterSqlBuilder->setPagination($pagination);
     }
 
     public function getSearchQuery(): Query
     {
-        $this->guardContext();
         return $this->context->queryBuilder->getQuery();
     }
 
     public function count(): int
     {
-        $this->guardContext();
-
         $idPropertyName = current($this->context->entityClassMetadata->identifier);
         $aggregateAlias = self::AGGREGATE_ALIAS;
         return (clone $this->context->queryBuilder)
             ->select("count(distinct({$aggregateAlias}.{$idPropertyName}))")
             ->getQuery()
             ->getSingleScalarResult();
-    }
-
-    /**
-     * @param class-string $entityClass
-     * @return $this
-     */
-    public function setEntityClass(string $entityClass): self
-    {
-        $entityClassMetadata = $this->entityManager->getClassMetadata($entityClass);
-        $entityRepository = $this->entityManager->getRepository($entityClass);
-        $queryBuilder = $entityRepository->createQueryBuilder(self::AGGREGATE_ALIAS);
-        $filterSqlBuilder = new FilterSqlBuilder($queryBuilder);
-
-        $this->entityClass = $entityClass;
-        $this->entityClassMetadata = $entityClassMetadata;
-
-        $this->context = new FetcherContext(
-            $this->entityManager,
-            $queryBuilder,
-            $entityClass,
-            $entityClassMetadata,
-            $filterSqlBuilder
-        );
-
-        return $this;
     }
 
     public function getContext(): ?FetcherContext
@@ -122,7 +111,6 @@ class Fetcher
 
     public function getByIds(array $ids, bool $eager = true): array
     {
-        $this->guardContext();
         $aggregateAlias = self::AGGREGATE_ALIAS;
         $idPropertyName = $this->entityClassMetadata->identifier[0];
 
@@ -165,20 +153,27 @@ class Fetcher
         return $qb->getQuery()->getResult();
     }
 
-    protected function guardContext(): void
+    /**
+     * @return array<string>
+     * @throws \Doctrine\DBAL\Driver\Exception
+     * @throws Exception
+     */
+    public function searchEntityIds(): array
     {
-        if (!isset($this->context)) {
-            throw new SystemException('EntityClass is not set');
-        }
-    }
-
-    public function getEntityClass(): ?string
-    {
-        return $this->entityClass;
-    }
-
-    public function getEntityClassMetadata(): ?ClassMetadata
-    {
-        return $this->entityClassMetadata;
+        $query = $this->getSearchQuery();
+        $idColumnName = current($this->entityClassMetadata->identifier);
+        return array_map(function (array $result) use ($idColumnName) {
+            return $result["{$idColumnName}_0"];
+        }, $this->entityManager->getConnection()
+            ->executeQuery(
+                $query->getSQL(),
+                array_map(
+                    function (Parameter $parameter) {
+                        return $parameter->getValue();
+                    },
+                    $query->getParameters()->toArray()
+                )
+            )
+            ->fetchAllAssociative());
     }
 }
