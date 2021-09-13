@@ -13,6 +13,11 @@
             "Bundle\\UIBundle\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Bundle\\UIBundle\\Test\\": "tests/"
+        }
+    },
     "require": {
         "php": ">=8.0",
         "symfony/dependency-injection": "^5.2",
