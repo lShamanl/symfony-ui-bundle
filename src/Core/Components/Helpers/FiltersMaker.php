@@ -22,14 +22,22 @@ class FiltersMaker
         $filters = [];
         if (is_array($filterQuery)) {
             foreach ($filterQuery as $property => $filterExpression) {
-                if (!self::propertyIsValid($property)) { continue; }
-                if (!self::filterExpressionIsValid($filterExpression)) { continue; }
+                if (!self::propertyIsValid($property)) {
+                    continue;
+                }
+                if (!self::filterExpressionIsValid($filterExpression)) {
+                    continue;
+                }
 
                 $value = current($filterExpression);
                 $mode = key($filterExpression);
 
-                if (!self::valueIsValid($value)) { continue; }
-                if (!self::modeIsValid($mode)) { continue; }
+                if (!self::valueIsValid($value)) {
+                    continue;
+                }
+                if (!self::modeIsValid($mode)) {
+                    continue;
+                }
 
                 $filters[] = new Filter($property, $value, $mode);
             }

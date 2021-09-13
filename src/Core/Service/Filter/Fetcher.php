@@ -125,7 +125,9 @@ class Fetcher
         $this->guardContext();
         $aggregateAlias = self::AGGREGATE_ALIAS;
 
-        $idsPrepared = array_map(function (string $id) { return "'$id'"; }, $ids);
+        $idsPrepared = array_map(function (string $id) {
+            return "'$id'";
+        }, $ids);
         if (empty($idsPrepared)) {
             return [];
         }
