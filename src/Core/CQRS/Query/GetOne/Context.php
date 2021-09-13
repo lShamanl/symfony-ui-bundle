@@ -6,18 +6,30 @@ namespace Bundle\UIBundle\Core\CQRS\Query\GetOne;
 
 use Bundle\UIBundle\Core\Components\AbstractContext;
 use Bundle\UIBundle\Core\Components\Interfaces\QueryContextInterface;
+use Bundle\UIBundle\Core\Contract\Command\OutputContractInterface;
 use Bundle\UIBundle\Core\Dto\Locale;
 use Bundle\UIBundle\Core\Dto\TranslationDto;
 
 class Context extends AbstractContext implements QueryContextInterface
 {
     protected string $entityId;
+    /** @var class-string */
     protected string $targetEntityClass;
+    /** @var class-string<OutputContractInterface> */
     protected string $outputDtoClass;
     protected array $translations;
     protected ?Locale $locale;
     protected string $outputFormat;
 
+    /**
+     * Context constructor.
+     * @param string $outputFormat
+     * @param string $entityId
+     * @param class-string $targetEntityClass
+     * @param class-string<OutputContractInterface> $outputDtoClass
+     * @param array $translations
+     * @param Locale|null $locale
+     */
     public function __construct(
         string $outputFormat,
         string $entityId,
@@ -67,11 +79,18 @@ class Context extends AbstractContext implements QueryContextInterface
         return $this;
     }
 
+    /**
+     * @return class-string
+     */
     public function getTargetEntityClass(): string
     {
         return $this->targetEntityClass;
     }
 
+    /**
+     * @param class-string $targetEntityClass
+     * @return $this
+     */
     public function setTargetEntityClass(string $targetEntityClass): self
     {
         $this->targetEntityClass = $targetEntityClass;

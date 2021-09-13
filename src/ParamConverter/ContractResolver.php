@@ -22,18 +22,22 @@ class ContractResolver implements ArgumentValueResolverInterface
 
     public function supports(Request $request, ArgumentMetadata $argument): bool
     {
-        return is_subclass_of($argument->getType(), InputContractInterface::class);
+        $type = $argument->getType();
+        return $type !== null && is_subclass_of($type, InputContractInterface::class);
     }
 
     public function resolve(Request $request, ArgumentMetadata $argument): Generator
     {
         $queryData   = $request->query->all();
         $requestData = !empty($request->getContent())
-            ? json_decode((string) $request->getContent(), true)
+            ? (array) json_decode((string) $request->getContent(), true)
             : $request->request->all();
 
+        /** @var array<string, string> $payload */
         $payload = array_merge($queryData, $requestData);
 
-        yield $this->inputContractResolver->resolve($argument->getType(), $payload);
+        /** @var class-string<InputContractInterface> $type */
+        $type = $argument->getType();
+        yield $this->inputContractResolver->resolve($type, $payload);
     }
 }

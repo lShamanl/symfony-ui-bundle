@@ -21,16 +21,24 @@ class AutowareFilters
         string $fieldPrefix
     ): void {
         $aliasPath = Helper::makeAliasPathFromPropertyPath("$fieldPrefix.{$filter->getProperty()}");
+        /** @var array|string|int|null $value */
+        $value = $filter->getValue();
 
         switch (mb_strtolower($filter->getSearchMode())) {
             case FilterSqlBuilder::NOT_IN:
-                $appSqlBuilder->notIn($aliasPath, $filter->getValue());
+                if (isset($value) && is_array($value)) {
+                    $appSqlBuilder->notIn($aliasPath, $value);
+                }
                 break;
             case FilterSqlBuilder::IN:
-                $appSqlBuilder->in($aliasPath, $filter->getValue());
+                if (isset($value) && is_array($value)) {
+                    $appSqlBuilder->in($aliasPath, $value);
+                }
                 break;
             case FilterSqlBuilder::RANGE:
-                self::rangeDecorator($appSqlBuilder, $filter->getValue(), $aliasPath);
+                if (isset($value) && is_string($value)) {
+                    self::rangeDecorator($appSqlBuilder, $value, $aliasPath);
+                }
                 break;
             case FilterSqlBuilder::IS_NULL:
                 $appSqlBuilder->isNull($aliasPath);
@@ -41,39 +49,39 @@ class AutowareFilters
             case '<':
             case 'lt':
             case FilterSqlBuilder::LESS_THAN:
-                $appSqlBuilder->lessThan($aliasPath, $filter->getValue());
+                $appSqlBuilder->lessThan($aliasPath, $value);
                 break;
             case '>':
             case 'gt':
             case FilterSqlBuilder::GREATER_THAN:
-                $appSqlBuilder->greaterThan($aliasPath, $filter->getValue());
+                $appSqlBuilder->greaterThan($aliasPath, $value);
                 break;
             case '<=':
             case 'lte':
             case FilterSqlBuilder::LESS_OR_EQUALS:
-                $appSqlBuilder->lessOrEquals($aliasPath, $filter->getValue());
+                $appSqlBuilder->lessOrEquals($aliasPath, $value);
                 break;
             case '>=':
             case 'gte':
             case FilterSqlBuilder::GREATER_OR_EQUALS:
-                $appSqlBuilder->greaterOrEquals($aliasPath, $filter->getValue());
+                $appSqlBuilder->greaterOrEquals($aliasPath, $value);
                 break;
             case FilterSqlBuilder::LIKE:
-                $appSqlBuilder->like($aliasPath, $filter->getValue());
+                $appSqlBuilder->like($aliasPath, $value);
                 break;
             case FilterSqlBuilder::NOT_LIKE:
-                $appSqlBuilder->notLike($aliasPath, $filter->getValue());
+                $appSqlBuilder->notLike($aliasPath, $value);
                 break;
             case '=':
             case 'eq':
             case FilterSqlBuilder::EQUALS:
-                $appSqlBuilder->equals($aliasPath, $filter->getValue());
+                $appSqlBuilder->equals($aliasPath, $value);
                 break;
             case '!=':
             case '<>':
             case 'neq':
             case FilterSqlBuilder::NOT_EQUALS:
-                $appSqlBuilder->notEquals($aliasPath, $filter->getValue());
+                $appSqlBuilder->notEquals($aliasPath, $value);
                 break;
         }
     }

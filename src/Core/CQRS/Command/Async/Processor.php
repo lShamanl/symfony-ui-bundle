@@ -7,7 +7,6 @@ namespace Bundle\UIBundle\Core\CQRS\Command\Async;
 use Bundle\UIBundle\Core\Components\AbstractContext;
 use Bundle\UIBundle\Core\Components\AbstractProcessor;
 use Bundle\UIBundle\Core\Contract\ApiFormatter;
-use Bundle\UIBundle\Core\Dto\Locale;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 
@@ -15,7 +14,6 @@ class Processor extends AbstractProcessor
 {
     protected EventDispatcherInterface $dispatcher;
     protected SerializerInterface $serializer;
-    protected Locale $defaultLocale;
 
     public function __construct(
         EventDispatcherInterface $dispatcher,
@@ -25,11 +23,9 @@ class Processor extends AbstractProcessor
         $this->serializer = $serializer;
     }
 
-    /**
-     * @var Context $actionContext
-     */
     public function process(AbstractContext $actionContext): void
     {
+        /** @var Context $actionContext */
         $this->dispatcher->dispatch($actionContext->getCommand());
 
         $this->responseContent = $this->serializer->serialize(

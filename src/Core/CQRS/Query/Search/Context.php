@@ -6,6 +6,7 @@ namespace Bundle\UIBundle\Core\CQRS\Query\Search;
 
 use Bundle\UIBundle\Core\Components\AbstractContext;
 use Bundle\UIBundle\Core\Components\Interfaces\QueryContextInterface;
+use Bundle\UIBundle\Core\Contract\Command\OutputContractInterface;
 use Bundle\UIBundle\Core\Dto\Filters;
 use Bundle\UIBundle\Core\Dto\Locale;
 use Bundle\UIBundle\Core\Dto\PropertyNameConvertDto;
@@ -17,14 +18,16 @@ use Closure;
 
 class Context extends AbstractContext implements QueryContextInterface
 {
-    protected ?string $targetEntityClass;
-    protected ?string $outputDtoClass;
+    /** @var class-string */
+    protected string $targetEntityClass;
+    /** @var class-string<OutputContractInterface> */
+    protected string $outputDtoClass;
     protected array $filterBlackList;
     protected ?Closure $entityCallback;
     protected array $filterAliases;
     protected array $translations;
     protected ?Locale $locale;
-    protected ?Pagination $pagination;
+    protected Pagination $pagination;
     protected Filters $filters;
     protected Sorts $sorts;
     protected bool $eager;
@@ -32,9 +35,9 @@ class Context extends AbstractContext implements QueryContextInterface
 
     /**
      * Context constructor.
-     * @param string $targetEntityClass
+     * @param class-string $targetEntityClass
      * @param string $outputFormat
-     * @param string|null $outputDtoClass
+     * @param class-string<OutputContractInterface> $outputDtoClass
      * @param array $filterBlackList
      * @param Closure|null $entityCallback
      * @param array $filterAliases
@@ -48,7 +51,7 @@ class Context extends AbstractContext implements QueryContextInterface
     public function __construct(
         string $targetEntityClass,
         string $outputFormat,
-        string $outputDtoClass = null,
+        string $outputDtoClass,
         array $filterBlackList = [],
         Closure $entityCallback = null,
         array $filterAliases = [],
@@ -67,8 +70,8 @@ class Context extends AbstractContext implements QueryContextInterface
         $this->translations = $translations;
         $this->locale = $locale;
         $this->pagination = $pagination ?? new Pagination();
-        $this->filters = $filters ?? new Filters([]);
-        $this->sorts = $sorts ?? new Sorts([]);
+        $this->filters = $filters ?? new Filters();
+        $this->sorts = $sorts ?? new Sorts();
         $this->eager = $eager;
         $this->outputFormat = $outputFormat;
     }
@@ -158,17 +161,17 @@ class Context extends AbstractContext implements QueryContextInterface
         return $this;
     }
 
+    /**
+     * @return class-string
+     */
     public function getTargetEntityClass(): string
     {
         return $this->targetEntityClass;
     }
 
-    public function setTargetEntityClass(string $targetEntityClass): self
-    {
-        $this->targetEntityClass = $targetEntityClass;
-        return $this;
-    }
-
+    /**
+     * @return class-string<OutputContractInterface>
+     */
     public function getOutputDtoClass(): string
     {
         return $this->outputDtoClass;
@@ -196,6 +199,7 @@ class Context extends AbstractContext implements QueryContextInterface
         return $this->entityCallback;
     }
 
+    #todo: добавить возможность работать не с одним, а с несколькими колбэками
     public function setEntityCallback(Closure $entityCallback): self
     {
         $this->entityCallback = $entityCallback;

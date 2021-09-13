@@ -12,13 +12,16 @@ class SortsMaker
 {
     public static function make(Request $request): Sorts
     {
-        $sortRaw = $request->query->get('sort');
+        /** @var string $sortRaw */
+        $sortRaw = $request->query->get('sort', '');
         if (empty($sortRaw)) {
-            return new Sorts([]);
+            return new Sorts();
         }
 
-        $sortRaw = str_replace(' ', '', $sortRaw);
-        $sortParams = explode(',', $sortRaw);
+        $sortParams = explode(
+            ',',
+            str_replace(' ', '', $sortRaw)
+        );
 
         $sorts = [];
         foreach ($sortParams as $sortParam) {

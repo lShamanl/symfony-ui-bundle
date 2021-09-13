@@ -7,6 +7,7 @@ namespace Bundle\UIBundle\Core\CQRS\Command\Sync;
 use Bundle\UIBundle\Core\Components\AbstractContext;
 use Bundle\UIBundle\Core\Components\AbstractProcessor;
 use Bundle\UIBundle\Core\Contract\ApiFormatter;
+use Bundle\UIBundle\Core\Contract\Command\OutputContractInterface;
 use Bundle\UIBundle\Core\Dto\Locale;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -27,26 +28,28 @@ class Processor extends AbstractProcessor
         $this->defaultLocale = $defaultLocale;
     }
 
-    /**
-     * @param Context $actionContext
-     */
     public function process(AbstractContext $actionContext): void
     {
+        /** @var Context $actionContext $actionContext */
         if (!$actionContext->getLocale() instanceof Locale) {
             $actionContext->setLocale($this->defaultLocale);
         }
 
+        /** @var OutputContractInterface|null $output */
         $output = $actionContext->getHandler()->handle(
             $actionContext->getCommand()
         );
 
-        if (!empty($actionContext->getTranslations()) && !empty($actionContext->getLocale())) {
+        if (isset($output) && !empty($actionContext->getTranslations()) && !empty($actionContext->getLocale())) {
+            /** @var Locale $locale */
+            $locale = $actionContext->getLocale();
             $output = $this->translate(
                 $output,
                 $actionContext->getOutputFormat(),
                 $actionContext->getTranslations(),
-                $actionContext->getLocale(),
-                $this->translator
+                $locale,
+                $this->translator,
+                $this->serializer,
             );
         }
 

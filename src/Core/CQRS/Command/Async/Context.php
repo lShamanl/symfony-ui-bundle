@@ -12,13 +12,21 @@ class Context extends AbstractContext
 {
     protected ?HandlerInterface $handler;
     protected CommandInterface $command;
+    private string $outputFormat;
 
     public function __construct(
         CommandInterface $command,
+        string $outputFormat,
         HandlerInterface $handler = null,
     ) {
         $this->handler = $handler;
         $this->command = $command;
+        $this->outputFormat = $outputFormat;
+    }
+
+    public function getOutputFormat(): string
+    {
+        return $this->outputFormat;
     }
 
     public function getCommand(): CommandInterface

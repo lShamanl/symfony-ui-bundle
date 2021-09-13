@@ -30,13 +30,16 @@ class Processor extends AbstractProcessor
 
         $output = $this->createOutput($actionContext, $entity);
 
-        if (!empty($actionContext->getTranslations())) {
+        if (!empty($actionContext->getTranslations()) && $actionContext->hasLocale()) {
+            /** @var Locale $locale */
+            $locale = $actionContext->getLocale();
             $output = $this->translate(
                 $output,
                 $actionContext->getOutputFormat(),
                 $actionContext->getTranslations(),
-                $actionContext->getLocale(),
-                $this->translator
+                $locale,
+                $this->translator,
+                $this->serializer,
             );
         }
 
@@ -49,9 +52,17 @@ class Processor extends AbstractProcessor
         ];
     }
 
+    /**
+     * @param string $id
+     * @param class-string $entityClass
+     * @return object
+     * @throws EntityNotFoundException
+     */
     protected function getEntityById(string $id, string $entityClass): object
     {
-        if (!$entity = $this->entityManager->getRepository($entityClass)->findOneBy(['id' => $id])) {
+        /** @var string $idPropertyName */
+        $idPropertyName = current($this->entityManager->getClassMetadata($entityClass)->identifier);
+        if (!$entity = $this->entityManager->getRepository($entityClass)->findOneBy([$idPropertyName => $id])) {
             $classnameExplode = explode('\\', $entityClass);
             $classname = end($classnameExplode);
             throw new EntityNotFoundException("{$classname} with id {$id} not exist");
