@@ -9,20 +9,28 @@ use Symfony\Component\HttpFoundation\Request;
 
 class PaginationMaker
 {
+    public const DEFAULT_PAGE = 1;
+    public const DEFAULT_SIZE = 20;
+
     public static function make(Request $request): Pagination
     {
-        $paginationParam = $request->query->get('page', []);
-
-        $hasPaginationParam = !empty($paginationParam) && is_array($paginationParam);
-        $hasPaginationData = isset($paginationParam['number']) && isset($paginationParam['size']);
-
-        if (!$hasPaginationParam || !$hasPaginationData) {
-            return new Pagination(1, 20);
-        } else {
-            return new Pagination(
-                (int) $paginationParam['number'],
-                (int) $paginationParam['size']
-            );
+        /** @var mixed $paginationRaw */
+        $paginationRaw = $request->query->get('page');
+        if (!isset($paginationRaw)) {
+            return self::createDefaultPagination();
         }
+        if (!is_array($paginationRaw)) {
+            return self::createDefaultPagination();
+        }
+
+        return new Pagination(
+            (int) ($paginationRaw['number'] ?? self::DEFAULT_PAGE),
+            (int) ($paginationRaw['size'] ?? self::DEFAULT_SIZE)
+        );
+    }
+
+    protected static function createDefaultPagination(): Pagination
+    {
+        return new Pagination(self::DEFAULT_PAGE, self::DEFAULT_SIZE);
     }
 }

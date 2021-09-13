@@ -9,12 +9,12 @@ class Filter
     private const DEFAULT_MODE = FilterSqlBuilder::EQUALS;
 
     private string $property;
-    private string|array $value;
+    private mixed $value;
     private string $searchMode;
 
     public function __construct(
         string $property,
-        string|array $value,
+        mixed $value,
         string $mode = self::DEFAULT_MODE
     ) {
 
@@ -28,7 +28,7 @@ class Filter
         return $this->property;
     }
 
-    public function getValue(): string|array
+    public function getValue(): mixed
     {
         return $this->value;
     }

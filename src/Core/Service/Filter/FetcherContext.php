@@ -14,12 +14,21 @@ class FetcherContext
 {
     public QueryBuilder $queryBuilder;
     public EntityManagerInterface $entityManager;
+    /** @var class-string */
     public string $entityClass;
     public ClassMetadata $entityClassMetadata;
     public FilterSqlBuilder $filterSqlBuilder;
     public array $entityWhiteList = [];
     public array $entityAssociationWhiteList = [];
 
+    /**
+     * FetcherContext constructor.
+     * @param EntityManagerInterface $entityManager
+     * @param QueryBuilder $queryBuilder
+     * @param class-string $entityClass
+     * @param ClassMetadata $entityClassMetadata
+     * @param FilterSqlBuilder $filterSqlBuilder
+     */
     public function __construct(
         EntityManagerInterface $entityManager,
         QueryBuilder $queryBuilder,

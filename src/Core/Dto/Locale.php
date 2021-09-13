@@ -6,19 +6,22 @@ namespace Bundle\UIBundle\Core\Dto;
 
 class Locale
 {
+    public const DEFAULT_LANG = 'en';
+    
     /** @var string[] */
     public array $locales = [];
 
-    public function __construct(?string $defaultLang = null)
+    public function __construct(string $defaultLang = self::DEFAULT_LANG)
     {
-        if ($defaultLang) {
-            $this->locales[] = $defaultLang;
-        }
+        $this->locales[] = $defaultLang;
     }
 
     public function getPriorityLang(): string
     {
-        return current($this->locales);
+        return !empty($this->locales)
+            ? current($this->locales)
+            : self::DEFAULT_LANG
+        ;
     }
 
     public function getAll(): array
