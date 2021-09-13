@@ -20,7 +20,7 @@
         "doctrine/annotations": "^1.13",
         "doctrine/doctrine-bundle": "^2.4",
         "doctrine/doctrine-migrations-bundle": "^3.1",
-        "composer/package-versions-deprecated": "1.11.99.2",
+        "composer/package-versions-deprecated": "^1.11",
         "doctrine/orm": "^2.9",
         "symfony/serializer": "^5.2",
         "symfony/validator": "^5.2",
