@@ -123,6 +123,7 @@ class Processor extends AbstractProcessor
 
     private function extractFilters(AbstractContext $actionContext): Filters
     {
+        /** @var Context $actionContext */
         $filters = $actionContext->getFilters();
         $this->applyFilterFieldAliases($filters, $actionContext->getFilterAliases());
         return $this->deleteFilterInBlackList($filters, $actionContext->getFilterBlackList());

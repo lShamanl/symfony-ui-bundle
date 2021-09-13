@@ -23,11 +23,9 @@ class Processor extends AbstractProcessor
         $this->serializer = $serializer;
     }
 
-    /**
-     * @var Context $actionContext
-     */
     public function process(AbstractContext $actionContext): void
     {
+        /** @var Context $actionContext */
         $this->dispatcher->dispatch($actionContext->getCommand());
 
         $this->responseContent = $this->serializer->serialize(
