@@ -9,6 +9,7 @@ use Bundle\UIBundle\Core\Contract\Command\LocalizationOutputContractInterface;
 use Bundle\UIBundle\Core\Contract\Command\OutputContractInterface;
 use Bundle\UIBundle\Core\Dto\Locale;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 abstract class AbstractProcessor implements ProcessorInterface
@@ -25,7 +26,7 @@ abstract class AbstractProcessor implements ProcessorInterface
     {
         $response = new Response();
         $response->setContent($this->responseContent);
-        if (!empty($responseHeaders)) {
+        if (!empty($this->responseHeaders)) {
             $response->headers->add($this->responseHeaders);
         }
 
@@ -37,7 +38,7 @@ abstract class AbstractProcessor implements ProcessorInterface
         $outputDtoClass = $actionContext->getOutputDtoClass();
         $outputDtoIsLocalization = is_subclass_of($outputDtoClass, LocalizationOutputContractInterface::class);
         if ($outputDtoIsLocalization && $actionContext->hasLocale()) {
-            return new $outputDtoClass($entity, $actionContext->getLocale()->getPriorityLang());
+            return new $outputDtoClass($entity, $actionContext->getLocale()?->getPriorityLang());
         } else {
             return new $outputDtoClass($entity);
         }
@@ -48,14 +49,18 @@ abstract class AbstractProcessor implements ProcessorInterface
         string $outputFormat,
         array $translations,
         Locale $locale,
-        TranslatorInterface $translator
+        TranslatorInterface $translator,
+        SerializerInterface $serializer,
     ): array {
-        $entity = json_decode($this->serializer->serialize($entity, $outputFormat), true);
+        $entityData = (array) json_decode(
+            $serializer->serialize($entity, $outputFormat),
+            true
+        );
 
         foreach ($translations as $translationDomain => $translationProperty) {
-            if (isset($entity[$translationProperty])) {
-                $entity[$translationProperty] = $translator->trans(
-                    $entity[$translationProperty],
+            if (isset($entityData[$translationProperty])) {
+                $entityData[$translationProperty] = $translator->trans(
+                    $entityData[$translationProperty],
                     [],
                     $translationDomain,
                     $locale->getPriorityLang()
@@ -63,6 +68,6 @@ abstract class AbstractProcessor implements ProcessorInterface
             }
         }
 
-        return $entity;
+        return $entityData;
     }
 }

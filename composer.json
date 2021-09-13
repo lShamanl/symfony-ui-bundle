@@ -37,9 +37,9 @@
     },
     "scripts": {
         "lint": "phplint",
-        "phpstan": "phpstan",
         "phpcs-check": "phpcs",
         "phpcs-fix": "phpcbf",
+        "phpstan": "phpstan",
         "psalm": "psalm"
     }
 }

@@ -36,7 +36,8 @@ class Processor extends AbstractProcessor
                 $actionContext->getOutputFormat(),
                 $actionContext->getTranslations(),
                 $actionContext->getLocale(),
-                $this->translator
+                $this->translator,
+                $this->serializer,
             );
         }
 
