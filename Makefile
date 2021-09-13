@@ -6,8 +6,8 @@ lint-autofix:
 	composer phpcs-fix
 
 analyze:
-	composer psalm
 	composer phpstan
+	composer psalm
 
 test:
 	composer test

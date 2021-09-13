@@ -7,7 +7,7 @@ namespace Bundle\UIBundle\Core\Dto;
 class Locale
 {
     public const DEFAULT_LANG = 'en';
-    
+
     /** @var string[] */
     public array $locales = [];
 

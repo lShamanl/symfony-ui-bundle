@@ -28,11 +28,9 @@ class Processor extends AbstractProcessor
         $this->defaultLocale = $defaultLocale;
     }
 
-    /**
-     * @param Context $actionContext
-     */
     public function process(AbstractContext $actionContext): void
     {
+        /** @var Context $actionContext $actionContext */
         if (!$actionContext->getLocale() instanceof Locale) {
             $actionContext->setLocale($this->defaultLocale);
         }
