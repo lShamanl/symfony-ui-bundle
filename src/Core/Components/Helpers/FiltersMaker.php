@@ -17,30 +17,44 @@ class FiltersMaker
      */
     public static function make(Request $request): Filters
     {
-        $filterQuery = $request->query->get('filter', []);
+        /** @var mixed $filterRaw */
+        $filterRaw = $request->query->get('filter');
+
+        if (!isset($filterRaw)) {
+            return new Filters();
+        }
+        if (!is_array($filterRaw)) {
+            return new Filters();
+        }
 
         $filters = [];
-        if (is_array($filterQuery)) {
-            foreach ($filterQuery as $property => $filterExpression) {
-                if (!self::propertyIsValid($property)) {
-                    continue;
-                }
-                if (!self::filterExpressionIsValid($filterExpression)) {
-                    continue;
-                }
-
-                $value = current($filterExpression);
-                $mode = key($filterExpression);
-
-                if (!self::valueIsValid($value)) {
-                    continue;
-                }
-                if (!self::modeIsValid($mode)) {
-                    continue;
-                }
-
-                $filters[] = new Filter($property, $value, $mode);
+        /** @var int|string|null $property */
+        /** @var array<string, mixed> $filterExpression */
+        foreach ($filterRaw as $property => $filterExpression) {
+            if (!self::propertyIsValid($property)) {
+                continue;
             }
+            if (!self::filterExpressionIsValid($filterExpression)) {
+                continue;
+            }
+
+            /** @var mixed $value */
+            $value = current($filterExpression);
+            $mode = key($filterExpression);
+
+            if (!self::valueIsValid($value)) {
+                continue;
+            }
+            if (!self::modeIsValid($mode)) {
+                continue;
+            }
+            /** @var string $mode */
+
+            $filters[] = new Filter(
+                (string) $property,
+                $value,
+                $mode
+            );
         }
 
         return new Filters($filters);
@@ -95,9 +109,12 @@ class FiltersMaker
         return true;
     }
 
-    private static function propertyIsValid(?string $property): bool
+    private static function propertyIsValid(mixed $property): bool
     {
         if (!isset($property)) {
+            return false;
+        }
+        if (is_int($property)) {
             return false;
         }
 
