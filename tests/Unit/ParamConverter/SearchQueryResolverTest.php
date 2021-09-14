@@ -2,9 +2,10 @@
 
 namespace Bundle\UIBundle\Test\Unit\ParamConverter;
 
+use Bundle\UIBundle\ParamConverter\SearchQueryResolver;
 use PHPUnit\Framework\TestCase;
 
-class ContractResolverTest extends TestCase
+class SearchQueryResolverTest extends TestCase
 {
     public function testSupports(): void
     {
