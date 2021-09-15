@@ -1,10 +1,11 @@
 <?php
 
-namespace Bundle\UIBundle\Test\Unit\ParamConverter;
+namespace Bundle\UIBundle\Tests\Integration\ParamConverter;
 
+use Bundle\UIBundle\ParamConverter\LocaleResolver;
 use PHPUnit\Framework\TestCase;
 
-class ContractResolverTest extends TestCase
+class LocaleResolverTest extends TestCase
 {
     public function testSupports(): void
     {

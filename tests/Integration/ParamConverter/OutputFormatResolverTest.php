@@ -1,11 +1,11 @@
 <?php
 
-namespace Bundle\UIBundle\Test\Unit\ParamConverter;
+namespace Bundle\UIBundle\Tests\Integration\ParamConverter;
 
-use Bundle\UIBundle\ParamConverter\SearchQueryResolver;
+use Bundle\UIBundle\ParamConverter\OutputFormatResolver;
 use PHPUnit\Framework\TestCase;
 
-class SearchQueryResolverTest extends TestCase
+class OutputFormatResolverTest extends TestCase
 {
     public function testSupports(): void
     {

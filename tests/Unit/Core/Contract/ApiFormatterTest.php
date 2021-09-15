@@ -1,11 +1,11 @@
 <?php
 
-namespace Bundle\UIBundle\Test\Unit\Core\Contract;
+namespace Bundle\UIBundle\Tests\Unit\Core\Contract;
 
 use Bundle\UIBundle\Core\Contract\ApiFormatter;
-use PHPUnit\Framework\TestCase;
+use Bundle\UIBundle\Tests\Unit\UnitTestCase;
 
-class ApiFormatterTest extends TestCase
+class ApiFormatterTest extends UnitTestCase
 {
     public function testPrepare(): void
     {

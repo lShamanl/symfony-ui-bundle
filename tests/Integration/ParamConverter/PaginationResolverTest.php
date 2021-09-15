@@ -1,11 +1,11 @@
 <?php
 
-namespace Bundle\UIBundle\Test\Unit\ParamConverter;
+namespace Bundle\UIBundle\Tests\Integration\ParamConverter;
 
-use Bundle\UIBundle\ParamConverter\LocaleResolver;
+use Bundle\UIBundle\ParamConverter\PaginationResolver;
 use PHPUnit\Framework\TestCase;
 
-class LocaleResolverTest extends TestCase
+class PaginationResolverTest extends TestCase
 {
     public function testSupports(): void
     {
