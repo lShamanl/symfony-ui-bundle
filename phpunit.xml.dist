@@ -8,10 +8,12 @@
          convertNoticesToExceptions="true"
          convertWarningsToExceptions="true"
          processIsolation="false"
-         stopOnFailure="false">
+         stopOnFailure="false"
+         cacheResultFile="var/cache/.phpunit.result.cache"
+>
     <php>
         <env name="KERNEL_CLASS" value="App\Kernel" />
-        <env name="APP_ENV" value="test" force ="true" />
+        <env name="APP_ENV" value="test" force="true" />
     </php>
     <testsuites>
         <testsuite name="unit">
