@@ -2,6 +2,7 @@
     "name": "lshamanl/symfony-ui-bundle",
     "description": "Symfony API-Adapter, UI-Bundle, Filters",
     "type": "symfony-bundle",
+    "license": "BSD-3-Clause",
     "authors": [
         {
             "name": "alexander.erin",
