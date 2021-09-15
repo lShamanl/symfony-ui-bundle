@@ -5,6 +5,9 @@ namespace Bundle\UIBundle\Tests\Unit\Core\Contract;
 use Bundle\UIBundle\Core\Contract\ApiFormatter;
 use Bundle\UIBundle\Tests\Unit\UnitTestCase;
 
+/**
+ * @covers \Bundle\UIBundle\Core\Contract\ApiFormatter
+ */
 class ApiFormatterTest extends UnitTestCase
 {
     public function testPrepare(): void

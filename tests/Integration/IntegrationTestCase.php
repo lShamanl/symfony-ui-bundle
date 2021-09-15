@@ -21,7 +21,8 @@ class IntegrationTestCase extends TestCase
     {
         parent::setUpBeforeClass();
         self::$faker = Factory::create();
-        #todo: здесь не хватает контейнера
+        #todo: здесь не хватает контейнера (надо переопределить в phpunit.xml неймспейс Кернела, ну и написать его),
+        # Научиться создавать экземпляр приложения для тестов.
     }
 
     /**
