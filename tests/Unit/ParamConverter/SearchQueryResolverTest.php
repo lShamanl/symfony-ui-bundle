@@ -1,6 +1,6 @@
 <?php
 
-namespace Bundle\UIBundle\Tests\Integration\ParamConverter;
+namespace Bundle\UIBundle\Tests\Unit\ParamConverter;
 
 use Bundle\UIBundle\ParamConverter\SearchQueryResolver;
 use PHPUnit\Framework\TestCase;

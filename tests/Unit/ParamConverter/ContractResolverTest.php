@@ -1,22 +1,28 @@
 <?php
 
-namespace Bundle\UIBundle\Tests\Integration\ParamConverter;
+namespace Bundle\UIBundle\Tests\Unit\ParamConverter;
 
+use Bundle\UIBundle\Core\Service\InputContractResolver;
+use Bundle\UIBundle\Core\Service\RequestParser;
 use Bundle\UIBundle\Tests\ExampleInstance\InputContract\InvalidInputContract;
 use Bundle\UIBundle\Tests\ExampleInstance\InputContract\ValidInputContract;
-use Bundle\UIBundle\Tests\Integration\IntegrationTestCase;
+use Bundle\UIBundle\Tests\Unit\UnitTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Bundle\UIBundle\ParamConverter\ContractResolver;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
 
-class ContractResolverTest extends IntegrationTestCase
+class ContractResolverTest extends UnitTestCase
 {
     protected ContractResolver $resolver;
 
     public function setUp(): void
     {
         parent::setUp();
-//        $this->resolver = self::$container->get(ContractResolver::class);
+
+        $this->resolver = new ContractResolver(
+            self::createMock(InputContractResolver::class),
+            self::createMock(RequestParser::class)
+        );
     }
 
     public function testSupportsSuccess(): void
@@ -43,10 +49,5 @@ class ContractResolverTest extends IntegrationTestCase
         );
 
         self::assertFalse($this->resolver->supports(new Request(), $argumentMetadata));
-    }
-
-    public function testResolve(): void
-    {
-        self::markTestSkipped();
     }
 }

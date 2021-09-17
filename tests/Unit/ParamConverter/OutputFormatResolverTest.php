@@ -1,11 +1,11 @@
 <?php
 
-namespace Bundle\UIBundle\Tests\Integration\ParamConverter;
+namespace Bundle\UIBundle\Tests\Unit\ParamConverter;
 
-use Bundle\UIBundle\ParamConverter\FiltersResolver;
+use Bundle\UIBundle\ParamConverter\OutputFormatResolver;
 use PHPUnit\Framework\TestCase;
 
-class FiltersResolverTest extends TestCase
+class OutputFormatResolverTest extends TestCase
 {
     public function testSupports(): void
     {

@@ -33,7 +33,7 @@ class ApiFormatter
     public array $errors;
 
     /**
-     * ApiOutputFormatter constructor.
+     * ApiFormatter constructor.
      * @param array<string, string> $data
      * @param int $status
      * @param array<string, string> $errors
