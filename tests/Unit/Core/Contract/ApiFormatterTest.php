@@ -10,13 +10,81 @@ use Bundle\UIBundle\Tests\Unit\UnitTestCase;
  */
 class ApiFormatterTest extends UnitTestCase
 {
-    public function testPrepare(): void
+    /**
+     * @dataProvider getCases
+     * @param array<string,string> $data
+     * @param int $status
+     * @param array<string,string> $errors
+     * @param bool $isErrors
+     */
+    public function testPrepare(array $data, int $status, array $errors, bool $isErrors): void
     {
-        self::markTestSkipped();
+        $prepared = ApiFormatter::prepare($data, $status, $errors);
+
+        self::assertEquals($data, $prepared['data']);
+        self::assertEquals($status, $prepared['status']);
+        self::assertEquals($errors, $prepared['errors']);
+        self::assertEquals($isErrors, $prepared['isError']);
     }
 
-    public function testContract(): void
+    /**
+     * @dataProvider getCases
+     * @param array<string,string> $data
+     * @param int $status
+     * @param array<string,string> $errors
+     * @param bool $isErrors
+     */
+    public function testToArray(array $data, int $status, array $errors, bool $isErrors): void
     {
-        self::markTestSkipped('Здесь оттестровать что есть все необходимые поля');
+        $apiOutputFormatter = new ApiFormatter($data, $status, $errors);
+
+        $toArray = $apiOutputFormatter->toArray();
+
+        self::assertEquals($data, $toArray['data']);
+        self::assertEquals($status, $toArray['status']);
+        self::assertEquals($errors, $toArray['errors']);
+        self::assertEquals($isErrors, $toArray['isError']);
+    }
+
+    /**
+     * @dataProvider getCases
+     * @param array<string,string> $data
+     * @param int $status
+     * @param array<string,string> $errors
+     * @param bool $isErrors
+     */
+    public function testCreate(array $data, int $status, array $errors, bool $isErrors): void
+    {
+        $apiOutputFormatter = new ApiFormatter($data, $status, $errors);
+
+        self::assertEquals($data, $apiOutputFormatter->data);
+        self::assertEquals($status, $apiOutputFormatter->status);
+        self::assertEquals($errors, $apiOutputFormatter->errors);
+        self::assertEquals($isErrors, $apiOutputFormatter->isError);
+    }
+
+    public function getCases(): array
+    {
+        $data = [
+            'field_1' => 'value_1',
+            'field_2' => 'value_2',
+        ];
+
+        return [
+            'withErrors' => [
+                'data' => $data,
+                'status' => 400,
+                'errors' => [
+                    'field_3' => 'value_3',
+                ],
+                'isErrors' => true
+            ],
+            'withoutErrors' => [
+                'data' => $data,
+                'status' => 200,
+                'errors' => [],
+                'isErrors' => false
+            ],
+        ];
     }
 }
