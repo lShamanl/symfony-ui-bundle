@@ -1,3 +1,6 @@
+phpmetrics:
+	./vendor/bin/phpmetrics --report-html=var/myreport ./src
+
 lint:
 	composer lint
 	composer phpcs-check
