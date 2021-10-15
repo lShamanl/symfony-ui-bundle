@@ -66,7 +66,7 @@ class Fetcher
         $filtersForRelations = $this->context->fetchFiltersForRelations($filters);
         foreach ($this->context->fetchJoinList($filtersForRelations) as $propertyPath) {
             $explodePropertyPath = explode('.', $propertyPath);
-            for ($level = 1; $level <= count($explodePropertyPath); $level++) {
+            for ($level = 1, $levelMax = count($explodePropertyPath); $level <= $levelMax; $level++) {
                 $relationPath = Helper::makeRelationPath($explodePropertyPath, $level);
                 $path = Helper::makeAliasPathFromPropertyPath("$aggregateAlias.$relationPath");
                 $alias = Helper::pathToAlias($path);
@@ -75,7 +75,9 @@ class Fetcher
             }
         }
 
-        $this->context->queryBuilder->distinct(true);
+        if (!empty($filtersForRelations->toArray())) {
+            $this->context->queryBuilder->distinct(true);
+        }
 
         AutowareFilters::autoware(
             $filtersForRelations,
