@@ -16,10 +16,10 @@ class RequestParser
     {
         $query   = $request->query->all();
         $content = (array) json_decode((string) $request->getContent(), true);
-        $request = $request->request->all();
+        $requestData = $request->request->all();
 
         /** @var array<string, string> $payload */
-        $payload = array_merge($query, $content, $request);
+        $payload = array_merge($query, $content, $requestData);
         return $payload;
     }
 }
