@@ -55,9 +55,9 @@ IN | 'in' | filter[status][in][]='active' | Свойство содержит о
 RANGE | 'range' | filter[rating][range]='17,42' | Свойство находится в выбранном указанном диапазоне
 IS_NULL | 'is-null' | filter[gender][is-null] | Свойство равно null
 NOT_NULL | 'not-null' | filter[name][not-null] | Свойство не равно null
-LESS_THAN | 'less-than', '<', 'lt' | filter[rating][>=]='94' | Свойство меньше указанного значения
-GREATER_THAN | 'greater-than', '>', 'gt' | filter[rating][>=]='42' | Свойство больше указанного значения
-LESS_OR_EQUALS | 'less-or-equals', '<=', 'lte' | filter[rating][>=]='15' | Свойство меньше или равно указанному значению
+LESS_THAN | 'less-than', '<', 'lt' | filter[rating][<]='94' | Свойство меньше указанного значения
+GREATER_THAN | 'greater-than', '>', 'gt' | filter[rating][>]='42' | Свойство больше указанного значения
+LESS_OR_EQUALS | 'less-or-equals', '<=', 'lte' | filter[rating][<=]='15' | Свойство меньше или равно указанному значению
 GREATER_OR_EQUALS | 'greater-or-equals', '>=', 'gte' | filter[rating][>=]='97' | Свойство больше или равно указанному значению
 LIKE | 'like' | filter[email][like]='26d@' | Свойство содержит часть указанного значения
 NOT_LIKE | 'not-like' | filter[email][not-like]='27d@' | Свойство не содержит часть указанного значения

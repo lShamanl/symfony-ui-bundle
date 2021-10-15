@@ -22,7 +22,7 @@ class PaginationMaker
         if (!is_array($paginationRaw)) {
             return self::createDefaultPagination();
         }
-
+        #todo: Добавить дефолтные вещи в ENV-файл, чтобы их можно было переопределять: query ?? env ?? default
         return new Pagination(
             (int) ($paginationRaw['number'] ?? self::DEFAULT_PAGE),
             (int) ($paginationRaw['size'] ?? self::DEFAULT_SIZE)
