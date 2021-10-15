@@ -138,7 +138,7 @@ class Fetcher
             $joins = [];
             foreach ($uniqueAssocRelations as $propertyPath) {
                 $explodePropertyPath = explode('.', $propertyPath);
-                for ($level = 1; $level <= count($explodePropertyPath); $level++) {
+                for ($level = 1, $levelMax = count($explodePropertyPath); $level <= $levelMax; $level++) {
                     $relationPath = Helper::makeRelationPath($explodePropertyPath, $level);
                     $path = Helper::makeAliasPathFromPropertyPath("$aggregateAlias.$relationPath");
                     $alias = Helper::pathToAlias($path);
