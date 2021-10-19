@@ -49,7 +49,6 @@ class ApiFormatter
         $this->errors = $errors;
     }
 
-    /** @Ignore */
     public function toArray(): array
     {
         return self::prepare(
