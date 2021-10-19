@@ -6,7 +6,6 @@ namespace Bundle\UIBundle\Core\Contract;
 
 use Symfony\Component\HttpFoundation\Response;
 use OpenApi\Annotations as OA;
-use Symfony\Component\Serializer\Annotation\Ignore;
 
 class ApiFormatter
 {
