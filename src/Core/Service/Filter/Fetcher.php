@@ -116,7 +116,7 @@ class Fetcher
         $aggregateAlias = self::AGGREGATE_ALIAS;
         $idPropertyName = $this->entityClassMetadata->identifier[0];
 
-        $idsPrepared = array_map(function (string $id) {
+        $idsPrepared = array_map(static function (string $id) {
             return "'$id'";
         }, $ids);
         if (empty($idsPrepared)) {
@@ -162,6 +162,8 @@ class Fetcher
      */
     public function searchEntityIds(): array
     {
+        // Этот метод нацелен на поиск ID в БД посредством EntityManager, тут можно подменять эту реализацию как-нибудь,
+        // например, чтобы подсунуть Elastic и ускорить за счет этого общее время поиска
         $query = $this->getSearchQuery();
         $idColumnName = current($this->entityClassMetadata->identifier);
         return array_map(function (array $result) use ($idColumnName) {

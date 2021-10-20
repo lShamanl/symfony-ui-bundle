@@ -46,7 +46,7 @@ class Processor extends AbstractProcessor
     public function applyFilterFieldAliases(Filters $filters, array $aliases): void
     {
         array_map(static function (Filter $filter) use ($aliases) {
-            if (key_exists($filter->getProperty(), $aliases)) {
+            if (array_key_exists($filter->getProperty(), $aliases)) {
                 $filter->setPropertyName(
                     $aliases[$filter->getProperty()]
                 );
@@ -91,7 +91,7 @@ class Processor extends AbstractProcessor
             $entities[] = $this->createOutput($actionContext, $entity);
         }
 
-        if (!empty($actionContext->getTranslations()) && !empty($actionContext->getLocale())) {
+        if (!empty($actionContext->getTranslations()) && $actionContext->getLocale() !== null) {
             $entities = array_map(function (object $entity) use ($actionContext) {
                 return $this->translate(
                     $entity,
