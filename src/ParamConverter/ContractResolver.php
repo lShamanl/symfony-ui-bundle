@@ -13,7 +13,7 @@ use Symfony\Component\HttpKernel\Controller\ArgumentValueResolverInterface;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
 
 /**
- * UIBundleCommand
+ *  @UIBundleCommand
  */
 class ContractResolver implements ArgumentValueResolverInterface
 {
