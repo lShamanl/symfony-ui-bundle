@@ -6,6 +6,9 @@ namespace Bundle\UIBundle\Core\Components\Exception;
 
 use Throwable;
 
+/**
+ * UIBundleCommand
+ */
 class ValidatorException extends DomainException
 {
     public function __construct(

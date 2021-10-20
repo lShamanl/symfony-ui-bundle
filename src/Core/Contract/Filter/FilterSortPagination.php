@@ -8,6 +8,9 @@ use Bundle\UIBundle\Core\Contract\Filter\Traits\FilterContractTrait;
 use Bundle\UIBundle\Core\Contract\Filter\Traits\PaginationContractTrait;
 use Bundle\UIBundle\Core\Contract\Filter\Traits\SortContractTrait;
 
+/**
+ * UIBundleQuery
+ */
 class FilterSortPagination
 {
     use FilterContractTrait;

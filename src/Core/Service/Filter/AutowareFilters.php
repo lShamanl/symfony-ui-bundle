@@ -6,6 +6,9 @@ namespace Bundle\UIBundle\Core\Service\Filter;
 
 use Bundle\UIBundle\Core\Dto\Filters;
 
+/**
+ * UIBundleQuery
+ */
 class AutowareFilters
 {
     public static function autoware(Filters $filters, FilterSqlBuilder $appSqlBuilder, string $rootEntityAlias): void

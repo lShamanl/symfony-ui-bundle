@@ -7,6 +7,9 @@ namespace Bundle\UIBundle\Core\Components\Helpers;
 use Bundle\UIBundle\Core\Service\Filter\Pagination;
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * UIBundleQuery
+ */
 class PaginationMaker
 {
     public const DEFAULT_PAGE = 1;

@@ -9,6 +9,9 @@ use Bundle\UIBundle\Core\Service\Filter\Filter;
 use Bundle\UIBundle\Core\Service\Filter\FilterSqlBuilder;
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * UIBundleQuery
+ */
 class FiltersMaker
 {
     /**

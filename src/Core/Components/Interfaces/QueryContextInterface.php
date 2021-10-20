@@ -7,6 +7,9 @@ namespace Bundle\UIBundle\Core\Components\Interfaces;
 use Bundle\UIBundle\Core\Contract\Command\OutputContractInterface;
 use Bundle\UIBundle\Core\Dto\Locale;
 
+/**
+ * UIBundleQuery
+ */
 interface QueryContextInterface
 {
     public function hasLocale(): bool;

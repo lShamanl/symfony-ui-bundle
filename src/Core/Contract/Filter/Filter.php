@@ -6,6 +6,9 @@ namespace Bundle\UIBundle\Core\Contract\Filter;
 
 use Bundle\UIBundle\Core\Contract\Filter\Traits\FilterContractTrait;
 
+/**
+ * UIBundleQuery
+ */
 class Filter
 {
     use FilterContractTrait;

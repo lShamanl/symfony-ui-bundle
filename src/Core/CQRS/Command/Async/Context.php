@@ -8,6 +8,9 @@ use Bundle\UIBundle\Core\Components\AbstractContext;
 use Bundle\UIBundle\Core\Contract\Command\CommandInterface;
 use Bundle\UIBundle\Core\Contract\Command\HandlerInterface;
 
+/**
+ * UIBundleCommand
+ */
 class Context extends AbstractContext
 {
     protected ?HandlerInterface $handler;

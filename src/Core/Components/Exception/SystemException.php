@@ -6,6 +6,9 @@ namespace Bundle\UIBundle\Core\Components\Exception;
 
 use Throwable;
 
+/**
+ * UIBundleFoundation
+ */
 class SystemException extends UIBundleException
 {
     public function __construct(

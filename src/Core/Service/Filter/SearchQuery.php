@@ -7,6 +7,9 @@ namespace Bundle\UIBundle\Core\Service\Filter;
 use Bundle\UIBundle\Core\Dto\Filters;
 use Bundle\UIBundle\Core\Dto\Sorts;
 
+/**
+ * UIBundleQuery
+ */
 class SearchQuery
 {
     private Pagination $pagination;

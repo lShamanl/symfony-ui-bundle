@@ -6,6 +6,9 @@ namespace Bundle\UIBundle\Core\Service;
 
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * UIBundleFoundation
+ */
 class RequestParser
 {
     /**

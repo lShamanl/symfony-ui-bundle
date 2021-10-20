@@ -10,6 +10,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Controller\ArgumentValueResolverInterface;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
 
+/**
+ * UIBundleFoundation
+ */
 class LocaleResolver implements ArgumentValueResolverInterface
 {
     public const LOCALE_QUERY_PARAM = 'lang';

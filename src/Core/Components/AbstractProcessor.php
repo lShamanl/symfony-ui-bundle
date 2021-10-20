@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Bundle\UIBundle\Core\Components;
 
-use Bundle\UIBundle\Core\Components\Interfaces\QueryContextInterface;
-use Bundle\UIBundle\Core\Contract\Command\LocalizationOutputContractInterface;
-use Bundle\UIBundle\Core\Contract\Command\OutputContractInterface;
 use Bundle\UIBundle\Core\Dto\Locale;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
+/**
+ * UIBundleFoundation
+ */
 abstract class AbstractProcessor implements ProcessorInterface
 {
     protected string $responseContent = '';
@@ -33,17 +33,9 @@ abstract class AbstractProcessor implements ProcessorInterface
         return $response;
     }
 
-    protected function createOutput(QueryContextInterface $actionContext, object $entity): OutputContractInterface
-    {
-        $outputDtoClass = $actionContext->getOutputDtoClass();
-        $outputDtoIsLocalization = is_subclass_of($outputDtoClass, LocalizationOutputContractInterface::class);
-        if ($outputDtoIsLocalization && $actionContext->hasLocale()) {
-            return new $outputDtoClass($entity, $actionContext->getLocale()?->getPriorityLang());
-        } else {
-            return new $outputDtoClass($entity);
-        }
-    }
-
+    /**
+     * @throws \JsonException
+     */
     protected function translate(
         object $entity,
         string $outputFormat,
@@ -54,7 +46,9 @@ abstract class AbstractProcessor implements ProcessorInterface
     ): array {
         $entityData = (array) json_decode(
             $serializer->serialize($entity, $outputFormat),
-            true
+            true,
+            512,
+            JSON_THROW_ON_ERROR
         );
 
         foreach ($translations as $translationDomain => $translationProperty) {

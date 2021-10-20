@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Bundle\UIBundle\Core\Dto;
 
+/**
+ * UIBundleFoundation
+ */
 class PropertyNameConvertDto
 {
     protected array $rules = [];

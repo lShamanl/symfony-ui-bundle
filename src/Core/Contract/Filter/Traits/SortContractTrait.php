@@ -6,6 +6,9 @@ namespace Bundle\UIBundle\Core\Contract\Filter\Traits;
 
 use OpenApi\Annotations as OA;
 
+/**
+ * UIBundleQuery
+ */
 trait SortContractTrait
 {
     /**

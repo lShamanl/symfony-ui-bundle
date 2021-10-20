@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Bundle\UIBundle\Core\Dto;
 
+/**
+ * UIBundleFoundation
+ */
 class Locale
 {
     public const DEFAULT_LANG = 'en';

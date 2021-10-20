@@ -8,6 +8,9 @@ use Bundle\UIBundle\Core\Dto\Sorts;
 use DateTimeInterface;
 use Doctrine\ORM\QueryBuilder;
 
+/**
+ * UIBundleQuery
+ */
 class FilterSqlBuilder
 {
     public const NOT_IN = 'not-in';

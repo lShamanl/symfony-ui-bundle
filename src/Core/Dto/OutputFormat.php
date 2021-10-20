@@ -6,6 +6,9 @@ namespace Bundle\UIBundle\Core\Dto;
 
 use Bundle\UIBundle\Core\Components\Exception\SystemException;
 
+/**
+ * UIBundleFoundation
+ */
 class OutputFormat
 {
     public const JSON = 'json';

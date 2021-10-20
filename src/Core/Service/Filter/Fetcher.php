@@ -12,6 +12,9 @@ use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\Query\Parameter;
 
+/**
+ * UIBundleQuery
+ */
 class Fetcher
 {
     private const AGGREGATE_ALIAS = 'entity';

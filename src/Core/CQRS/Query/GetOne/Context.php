@@ -10,6 +10,9 @@ use Bundle\UIBundle\Core\Contract\Command\OutputContractInterface;
 use Bundle\UIBundle\Core\Dto\Locale;
 use Bundle\UIBundle\Core\Dto\TranslationDto;
 
+/**
+ * UIBundleQuery
+ */
 class Context extends AbstractContext implements QueryContextInterface
 {
     protected string $entityId;

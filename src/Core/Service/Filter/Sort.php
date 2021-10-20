@@ -6,6 +6,9 @@ namespace Bundle\UIBundle\Core\Service\Filter;
 
 use Bundle\UIBundle\Core\Components\Exception\DomainException;
 
+/**
+ * UIBundleQuery
+ */
 class Sort
 {
     public const SORT_ASC = 'ASC';

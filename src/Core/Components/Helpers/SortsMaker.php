@@ -8,6 +8,9 @@ use Bundle\UIBundle\Core\Dto\Sorts;
 use Bundle\UIBundle\Core\Service\Filter\Sort;
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * UIBundleQuery
+ */
 class SortsMaker
 {
     public static function make(Request $request): Sorts

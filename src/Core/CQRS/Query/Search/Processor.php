@@ -18,6 +18,9 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
+/**
+ * UIBundleQuery
+ */
 class Processor extends AbstractProcessor
 {
     private FetcherFactory $fetcherFactory;

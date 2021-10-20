@@ -9,6 +9,9 @@ use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\ConstraintViolationList;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
+/**
+ * UIBundleCommand
+ */
 class ValidatorService
 {
     private ValidatorInterface $validator;

@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Bundle\UIBundle\Core\Service\Filter;
 
+/**
+ * UIBundleQuery
+ */
 class Helper
 {
     public static function makeAliasPathFromPropertyPath(string $propertyPath): string

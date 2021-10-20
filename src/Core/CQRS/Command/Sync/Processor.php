@@ -12,6 +12,9 @@ use Bundle\UIBundle\Core\Dto\Locale;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
+/**
+ * UIBundleCommand
+ */
 class Processor extends AbstractProcessor
 {
     protected SerializerInterface $serializer;

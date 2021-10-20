@@ -7,6 +7,9 @@ namespace Bundle\UIBundle\Core\Dto;
 use Bundle\UIBundle\Core\Service\Filter\Filter;
 use TypeError;
 
+/**
+ * UIBundleQuery
+ */
 class Filters
 {
     /** @var Filter[] */

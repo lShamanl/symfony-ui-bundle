@@ -7,6 +7,9 @@ namespace Bundle\UIBundle\Core\Dto;
 use Bundle\UIBundle\Core\Service\Filter\Sort;
 use TypeError;
 
+/**
+ * UIBundleQuery
+ */
 class Sorts
 {
     /** @var Sort[] */

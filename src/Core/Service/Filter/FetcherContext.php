@@ -10,6 +10,9 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\QueryBuilder;
 
+/**
+ * UIBundleQuery
+ */
 class FetcherContext
 {
     public QueryBuilder $queryBuilder;

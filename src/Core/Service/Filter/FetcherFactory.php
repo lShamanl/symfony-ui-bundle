@@ -6,6 +6,9 @@ namespace Bundle\UIBundle\Core\Service\Filter;
 
 use Doctrine\ORM\EntityManagerInterface;
 
+/**
+ * UIBundleQuery
+ */
 class FetcherFactory
 {
     private EntityManagerInterface $entityManager;

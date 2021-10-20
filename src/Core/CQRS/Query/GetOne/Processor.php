@@ -10,6 +10,9 @@ use Bundle\UIBundle\Core\CQRS\Query\AbstractProcessor;
 use Bundle\UIBundle\Core\Dto\Locale;
 use Doctrine\ORM\EntityNotFoundException;
 
+/**
+ * UIBundleQuery
+ */
 class Processor extends AbstractProcessor
 {
     /**

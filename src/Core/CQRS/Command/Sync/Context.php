@@ -10,6 +10,9 @@ use Bundle\UIBundle\Core\Contract\Command\HandlerInterface;
 use Bundle\UIBundle\Core\Dto\Locale;
 use Bundle\UIBundle\Core\Dto\TranslationDto;
 
+/**
+ * UIBundleCommand
+ */
 class Context extends AbstractContext
 {
     protected HandlerInterface $handler;

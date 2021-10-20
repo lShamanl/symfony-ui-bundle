@@ -16,6 +16,9 @@ use Bundle\UIBundle\Core\Service\Filter\Pagination;
 use Bundle\UIBundle\Core\Service\Filter\SearchQuery;
 use Closure;
 
+/**
+ * UIBundleQuery
+ */
 class Context extends AbstractContext implements QueryContextInterface
 {
     /** @var class-string */

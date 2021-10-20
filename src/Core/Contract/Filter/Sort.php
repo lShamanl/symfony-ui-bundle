@@ -6,6 +6,9 @@ namespace Bundle\UIBundle\Core\Contract\Filter;
 
 use Bundle\UIBundle\Core\Contract\Filter\Traits\SortContractTrait;
 
+/**
+ * UIBundleQuery
+ */
 class Sort
 {
     use SortContractTrait;

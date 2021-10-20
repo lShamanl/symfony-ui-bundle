@@ -10,6 +10,9 @@ use Bundle\UIBundle\Core\Contract\ApiFormatter;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 
+/**
+ * UIBundleCommand
+ */
 class Processor extends AbstractProcessor
 {
     protected EventDispatcherInterface $dispatcher;

@@ -8,6 +8,9 @@ use Bundle\UIBundle\Core\Components\Exception\DomainException;
 use Bundle\UIBundle\Core\Contract\Command\InputContractInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 
+/**
+ * UIBundleCommand
+ */
 class InputContractResolver
 {
     private ValidatorService $validator;
